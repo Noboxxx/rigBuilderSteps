@@ -1,5 +1,6 @@
 import rigBuilder
 from maya import cmds
+import os
 
 
 @rigBuilder.clock
@@ -19,3 +20,17 @@ def import_ctrls_shapes(path):
         ctrlShaper.NurbsCurvesFile(path).load()
     else:
         cmds.warning('\'{0}\' is not a valid.'.format(path))
+
+
+@rigBuilder.clock
+def import_ng_skin_layers(path, target):
+    import ngSkinTools2.api.transfer
+
+    if os.path.isfile(path):
+        layers_transfer = ngSkinTools2.api.transfer.LayersTransfer()
+        layers_transfer.vertex_transfer_mode = ngSkinTools2.api.transfer.VertexTransferMode.vertexId
+        layers_transfer.target = target
+        layers_transfer.load_source_from_file(path)
+        layers_transfer.execute()
+    else:
+        print('\'{}\' is not a valid path.'.format(path))
