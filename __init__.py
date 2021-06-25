@@ -3,18 +3,14 @@ from maya import cmds
 import os
 
 
-@rigBuilder.clock
+@rigBuilder.log
 def build_mgear(guide_path):
-    print(guide_path)
-
     import mgear.shifter.io
     mgear.shifter.io.build_from_file(filePath=guide_path)
 
 
-@rigBuilder.clock
+@rigBuilder.log
 def import_ctrls_shapes(path):
-    print(path)
-
     import ctrlShaper
     if ctrlShaper.NurbsCurvesFile.is_one(path):
         ctrlShaper.NurbsCurvesFile(path).load()
@@ -22,7 +18,7 @@ def import_ctrls_shapes(path):
         cmds.warning('\'{0}\' is not a valid.'.format(path))
 
 
-@rigBuilder.clock
+@rigBuilder.log
 def import_ng_skin_layers(path, target):
     import ngSkinTools2.api.transfer
 
