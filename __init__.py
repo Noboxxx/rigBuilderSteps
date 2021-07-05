@@ -98,3 +98,17 @@ def import_ng_skin_layers(path, target):
         layers_transfer.execute()
     else:
         print('\'{}\' is not a valid path.'.format(path))
+
+
+@rigBuilder.log
+def create_asset_folder(meshes, components, asset_folder_name='asset', rig_folder_name='rig', geo_folder_name='geo'):
+    rig_grp = cmds.group(name=rig_folder_name, empty=True)
+    for component in components:
+        cmds.parent(component, rig_grp)
+
+    geo_grp = cmds.group(name=geo_folder_name, empty=True)
+    for mesh in meshes:
+        cmds.parent(mesh, geo_grp)
+
+    asset_grp = cmds.group(name=asset_folder_name, empty=True)
+    cmds.parent(geo_grp, rig_grp, asset_grp)
